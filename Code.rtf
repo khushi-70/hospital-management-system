@@ -1,0 +1,471 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\b\f0\fs40\lang9 CODE:\par
+\b0\fs24 from tkinter import *\par
+import tkinter.messagebox as MessageBox\par
+import mysql.connector as mysql\par
+\par
+root = Tk()\par
+root.geometry("1500x1300")\par
+root.title("Patient Data")\par
+\par
+def Insert():\par
+    id = id_entry.get()\par
+    patient_name = patient_name_entry.get()\par
+    phone = phone_entry.get()\par
+    gender = gender_entry.get()\par
+    dob = dob_entry.get()\par
+    disease = disease_entry.get()\par
+    \par
+    if(id == "" or patient_name == "" or phone == "" or gender == "" or dob == "" or disease == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter all fields")\par
+    else:\par
+        con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+        cursor = con.cursor()\par
+        cursor.execute("insert into Patient values('" + id +"', '"+ patient_name +"', '"+phone+"', '"+ gender +"', '" + dob +"', '"+disease+"')")\par
+        cursor.execute("commit")\par
+  \par
+        MessageBox.showinfo("Status", "Successfully Inserted")\par
+        con.close();\par
+\par
+def Update():\par
+    id = id_entry.get()\par
+    patient_name = patient_name_entry.get()\par
+    phone = phone_entry.get()\par
+    gender = gender_entry.get()\par
+    dob = dob_entry.get()\par
+    disease = disease_entry.get()\par
+\par
+    if (patient_name == "" and phone == "" and gender == "" and dob == "" and disease == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter fields you want to update!")\par
+    else:\par
+        try:\par
+            con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+            cursor = con.cursor()\par
+            cursor.execute(f"UPDATE Patient SET patient_name = '\{patient_name\}', phone = '\{phone\}', gender = '\{gender\}', dob = '\{dob\}' WHERE id = '\{id\}'")\par
+            con.commit()\par
+            MessageBox.showinfo("Status", "Successfully Updated")\par
+        except mysql.Error as e:\par
+            MessageBox.showerror("Error", f"An error occurred: \{e\}")\par
+        finally:\par
+            con.close();\par
+\par
+def Del():\par
+  \par
+    if(id_entry.get() == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter ID to delete Patient record")\par
+    else:\par
+        con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+        cursor = con.cursor()\par
+        cursor.execute("delete from Patient where id='"+ id_entry.get() +"'")\par
+        cursor.execute("commit");\par
+  \par
+        id_entry.delete(0, 'end')\par
+        patient_name_entry.delete(0, 'end')\par
+        phone_entry.delete(0, 'end')\par
+        gender_entry.delete(0, 'end')\par
+        dob_entry.delete(0, 'end')\par
+        disease_entry.delete(0, 'end')\par
+  \par
+        MessageBox.showinfo("Status", "Successfully Deleted")\par
+        con.close();\par
+\par
+id = Label(root, text="ID:", font=("verdana 10"))\par
+id.place(x=50, y=30)\par
+id_entry = Entry(root, font=("verdana 10"))\par
+id_entry.place(x=160, y=30)\par
+\par
+patient_name = Label(root, text="Name:", font=("verdana 10"))\par
+patient_name.place(x=50, y=80)\par
+patient_name_entry = Entry(root, font=("verdana 10"))\par
+patient_name_entry.place(x=160, y=80)\par
+\par
+phone = Label(root, text="Phone No:", font=("verdana 10"))\par
+phone.place(x=50, y=130)\par
+phone_entry = Entry(root, font=("verdana 10"))\par
+phone_entry.place(x=160, y=130)\par
+\par
+gender= Label(root, text="Gender:", font=("verdana 10"))\par
+gender.place(x=50, y=180)\par
+gender_entry= Entry(root, font=("verdana 10"))\par
+gender_entry.place(x=160, y=180)\par
+\par
+dob= Label(root, text="DOB:", font=("verdana 10"))\par
+dob.place(x=50, y=230)\par
+dob_entry= Entry(root, font=("verdana 10"))\par
+dob_entry.place(x=160, y=230)\par
+\par
+disease= Label(root, text="Disease:", font=("verdana 10"))\par
+disease.place(x=50, y=280)\par
+disease_entry= Entry(root, font=("verdana 10"))\par
+disease_entry.place(x=160, y=280)\par
+\par
+btnInsert = Button(root, text="Insert", command=Insert, font=("verdana 10")).place(x=160, y=340)\par
+btnUpdate = Button(root, text="Update", command=Update, font=("verdana 10")).place(x=220, y=340)\par
+btnDelete = Button(root, text="Delete", command=Del, font=("verdana 10")).place(x=290, y=340)\par
+\par
+\par
+root = Tk()\par
+root.geometry("1500x1300")\par
+root.title("Staff Data")\par
+\par
+def Insert():\par
+    id = id_entry.get()\par
+    staff_name = staff_name_entry.get()\par
+    designation = designation_entry.get()\par
+    \par
+    if(id == "" or staff_name == "" or designation == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter all fields")\par
+    else:\par
+        con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+        cursor = con.cursor()\par
+        cursor.execute("insert into staff values('" + id +"', '"+ staff_name +"', '"+designation+"')")\par
+        cursor.execute("commit")\par
+  \par
+        MessageBox.showinfo("Status", "Successfully Inserted")\par
+        con.close();\par
+\par
+def Update():\par
+    id = id_entry.get()\par
+    staff_name = staff_name_entry.get()\par
+    designation = designation_entry.get()\par
+\par
+    if (staff_name == "" and designation == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter fields you want to update!")\par
+    else:\par
+        try:\par
+            con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+            cursor = con.cursor()\par
+            cursor.execute(f"UPDATE staff SET staff_name = '\{staff_name\}', designation = '\{designation\}' WHERE id = '\{id\}'")\par
+            con.commit()\par
+            MessageBox.showinfo("Status", "Successfully Updated")\par
+        except mysql.Error as e:\par
+            MessageBox.showerror("Error", f"An error occurred: \{e\}")\par
+        finally:\par
+            con.close();\par
+\par
+def Del():\par
+  \par
+    if(id_entry.get() == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter ID to delete staff record")\par
+    else:\par
+        con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+        cursor = con.cursor()\par
+        cursor.execute("delete from staff where id='"+ id_entry.get() +"'")\par
+        cursor.execute("commit");\par
+  \par
+        id_entry.delete(0, 'end')\par
+        staff_name_entry.delete(0, 'end')\par
+        designation_entry.delete(0, 'end')\par
+  \par
+        MessageBox.showinfo("Status", "Successfully Deleted")\par
+        con.close();\par
+\par
+id = Label(root, text="ID:", font=("verdana 10"))\par
+id.place(x=50, y=30)\par
+id_entry = Entry(root, font=("verdana 10"))\par
+id_entry.place(x=160, y=30)\par
+\par
+staff_name = Label(root, text="Name:", font=("verdana 10"))\par
+staff_name.place(x=50, y=80)\par
+staff_name_entry = Entry(root, font=("verdana 10"))\par
+staff_name_entry.place(x=160, y=80)\par
+\par
+designation = Label(root, text="Designation:", font=("verdana 10"))\par
+designation.place(x=50, y=130)\par
+designation_entry = Entry(root, font=("verdana 10"))\par
+designation_entry.place(x=160, y=130)\par
+\par
+btnInsert = Button(root, text="Insert", command=Insert, font=("verdana 10")).place(x=90, y=180)\par
+btnUpdate = Button(root, text="Update", command=Update, font=("verdana 10")).place(x=150, y=180)\par
+btnDelete = Button(root, text="Delete", command=Del, font=("verdana 10")).place(x=220, y=180)\par
+\par
+root = Tk()\par
+root.geometry("1500x1300")\par
+root.title("Doctor Data")\par
+\par
+def Insert():\par
+    id = id_entry.get()\par
+    doc_name = doc_name_entry.get()\par
+    phone = phone_entry.get()\par
+    gender = gender_entry.get()\par
+    dob = dob_entry.get()\par
+    specialisation = specialisation_entry.get()\par
+    \par
+    if(id == "" or doc_name == "" or phone == "" or gender == "" or dob == "" or specialisation == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter all fields")\par
+    else:\par
+        con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+        cursor = con.cursor()\par
+        cursor.execute("insert into Doctor values('" + id +"', '"+ doc_name +"', '"+phone+"', '"+ gender +"', '" + dob +"', '"+specialisation+"')")\par
+        cursor.execute("commit")\par
+  \par
+        MessageBox.showinfo("Status", "Successfully Inserted")\par
+        con.close();\par
+\par
+def Update():\par
+    id = id_entry.get()\par
+    doc_name = doc_name_entry.get()\par
+    phone = phone_entry.get()\par
+    gender = gender_entry.get()\par
+    dob = dob_entry.get()\par
+    specialisation = specialisation_entry.get()\par
+\par
+    if (doc_name == "" and phone == "" and gender == "" and dob == "" and specialisation == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter fields you want to update!")\par
+    else:\par
+        try:\par
+            con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+            cursor = con.cursor()\par
+            cursor.execute(f"UPDATE Doctor SET doc_name = '\{doc_name\}', phone = '\{phone\}', gender = '\{gender\}', dob = '\{dob\}', specialisation ='\{specialisation\}' WHERE id = '\{id\}'")\par
+            con.commit()\par
+            MessageBox.showinfo("Status", "Successfully Updated")\par
+        except mysql.Error as e:\par
+            MessageBox.showerror("Error", f"An error occurred: \{e\}")\par
+        finally:\par
+            con.close();\par
+\par
+def Del():\par
+  \par
+    if(id_entry.get() == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter ID to delete doctor record")\par
+    else:\par
+        con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+        cursor = con.cursor()\par
+        cursor.execute("delete from Doctor where id='"+ id_entry.get() +"'")\par
+        cursor.execute("commit");\par
+  \par
+        id_entry.delete(0, 'end')\par
+        doc_name_entry.delete(0, 'end')\par
+        phone_entry.delete(0, 'end')\par
+        gender_entry.delete(0, 'end')\par
+        dob_entry.delete(0, 'end')\par
+        specialisation_entry.delete(0, 'end')\par
+  \par
+        MessageBox.showinfo("Status", "Successfully Deleted")\par
+        con.close();\par
+\par
+id = Label(root, text="ID:", font=("verdana 10"))\par
+id.place(x=50, y=30)\par
+id_entry = Entry(root, font=("verdana 10"))\par
+id_entry.place(x=160, y=30)\par
+\par
+doc_name = Label(root, text="Name:", font=("verdana 10"))\par
+doc_name.place(x=50, y=80)\par
+doc_name_entry = Entry(root, font=("verdana 10"))\par
+doc_name_entry.place(x=160, y=80)\par
+\par
+phone = Label(root, text="Phone No:", font=("verdana 10"))\par
+phone.place(x=50, y=130)\par
+phone_entry = Entry(root, font=("verdana 10"))\par
+phone_entry.place(x=160, y=130)\par
+\par
+gender= Label(root, text="Gender:", font=("verdana 10"))\par
+gender.place(x=50, y=180)\par
+gender_entry= Entry(root, font=("verdana 10"))\par
+gender_entry.place(x=160, y=180)\par
+\par
+dob= Label(root, text="DOB:", font=("verdana 10"))\par
+dob.place(x=50, y=230)\par
+dob_entry= Entry(root, font=("verdana 10"))\par
+dob_entry.place(x=160, y=230)\par
+\par
+specialisation = Label(root, text="Specialisation:", font=("verdana 10"))\par
+specialisation.place(x=50, y=280)\par
+specialisation_entry= Entry(root, font=("verdana 10"))\par
+specialisation_entry.place(x=160, y=280)\par
+\par
+btnInsert = Button(root, text="Insert", command=Insert, font=("verdana 10")).place(x=160, y=340)\par
+btnUpdate = Button(root, text="Update", command=Update, font=("verdana 10")).place(x=220, y=340)\par
+btnDelete = Button(root, text="Delete", command=Del, font=("verdana 10")).place(x=290, y=340)\par
+\par
+\par
+root = Tk()\par
+root.geometry("1500x1300")\par
+root.title("Nurse Data")\par
+\par
+def Insert():\par
+    id = id_entry.get()\par
+    nurse_name = nurse_name_entry.get()\par
+    phone = phone_entry.get()\par
+    gender = gender_entry.get()\par
+    dob = dob_entry.get()\par
+    \par
+    if(id == "" or nurse_name == "" or phone == "" or gender == "" or dob == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter all fields")\par
+    else:\par
+        con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+        cursor = con.cursor()\par
+        cursor.execute("insert into Nurse values('" + id +"', '"+ nurse_name +"', '"+phone+"', '"+ gender +"', '" + dob +"')")\par
+        cursor.execute("commit")\par
+  \par
+        MessageBox.showinfo("Status", "Successfully Inserted")\par
+        con.close();\par
+\par
+def Update():\par
+    id = id_entry.get()\par
+    nurse_name = nurse_name_entry.get()\par
+    phone = phone_entry.get()\par
+    gender = gender_entry.get()\par
+    dob = dob_entry.get()\par
+\par
+    if (nurse_name == "" and phone == "" and gender == "" and dob == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter fields you want to update!")\par
+    else:\par
+        try:\par
+            con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+            cursor = con.cursor()\par
+            cursor.execute(f"UPDATE Nurse SET nurse_name = '\{nurse_name\}', phone = '\{phone\}', gender = '\{gender\}', dob = '\{dob\}' WHERE id = '\{id\}'")\par
+            con.commit()\par
+            MessageBox.showinfo("Status", "Successfully Updated")\par
+        except mysql.Error as e:\par
+            MessageBox.showerror("Error", f"An error occurred: \{e\}")\par
+        finally:\par
+            con.close();\par
+\par
+def Del():\par
+  \par
+    if(id_entry.get() == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter ID to delete nurse record")\par
+    else:\par
+        con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+        cursor = con.cursor()\par
+        cursor.execute("delete from Nurse where id='"+ id_entry.get() +"'")\par
+        cursor.execute("commit");\par
+  \par
+        id_entry.delete(0, 'end')\par
+        nurse_name_entry.delete(0, 'end')\par
+        phone_entry.delete(0, 'end')\par
+        gender_entry.delete(0, 'end')\par
+        dob_entry.delete(0, 'end')\par
+  \par
+        MessageBox.showinfo("Status", "Successfully Deleted")\par
+        con.close();\par
+\par
+id = Label(root, text="ID:", font=("verdana 10"))\par
+id.place(x=50, y=30)\par
+id_entry = Entry(root, font=("verdana 10"))\par
+id_entry.place(x=160, y=30)\par
+\par
+nurse_name = Label(root, text="Name:", font=("verdana 10"))\par
+nurse_name.place(x=50, y=80)\par
+nurse_name_entry = Entry(root, font=("verdana 10"))\par
+nurse_name_entry.place(x=160, y=80)\par
+\par
+phone = Label(root, text="Phone No:", font=("verdana 10"))\par
+phone.place(x=50, y=130)\par
+phone_entry = Entry(root, font=("verdana 10"))\par
+phone_entry.place(x=160, y=130)\par
+\par
+gender= Label(root, text="Gender:", font=("verdana 10"))\par
+gender.place(x=50, y=180)\par
+gender_entry= Entry(root, font=("verdana 10"))\par
+gender_entry.place(x=160, y=180)\par
+\par
+dob= Label(root, text="DOB:", font=("verdana 10"))\par
+dob.place(x=50, y=230)\par
+dob_entry= Entry(root, font=("verdana 10"))\par
+dob_entry.place(x=160, y=230)\par
+\par
+btnInsert = Button(root, text="Insert", command=Insert, font=("verdana 10")).place(x=160, y=340)\par
+btnUpdate = Button(root, text="Update", command=Update, font=("verdana 10")).place(x=220, y=340)\par
+btnDelete = Button(root, text="Delete", command=Del, font=("verdana 10")).place(x=290, y=340)\par
+\par
+from tkinter import *\par
+import tkinter.messagebox as MessageBox\par
+import mysql.connector as mysql\par
+\par
+root = Tk()\par
+root.geometry("1500x1300")\par
+root.title("Cleaner Data")\par
+\par
+def Insert():\par
+    id = id_entry.get()\par
+    clnr_name = clnr_name_entry.get()\par
+    phone = phone_entry.get()\par
+    gender = gender_entry.get()\par
+    dob = dob_entry.get()\par
+    \par
+    if(id == "" or clnr_name == "" or phone == "" or gender == "" or dob == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter all fields")\par
+    else:\par
+        con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+        cursor = con.cursor()\par
+        cursor.execute("insert into Cleaner values('" + id +"', '"+ clnr_name +"', '"+phone+"', '"+ gender +"', '" + dob +"')")\par
+        cursor.execute("commit")\par
+  \par
+        MessageBox.showinfo("Status", "Successfully Inserted")\par
+        con.close();\par
+\par
+def Update():\par
+    id = id_entry.get()\par
+    clnr_name = clnr_name_entry.get()\par
+    phone = phone_entry.get()\par
+    gender = gender_entry.get()\par
+    dob = dob_entry.get()\par
+\par
+    if (clnr_name == "" and phone == "" and gender == "" and dob == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter fields you want to update!")\par
+    else:\par
+        try:\par
+            con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+            cursor = con.cursor()\par
+            cursor.execute(f"UPDATE Cleaner SET clnr_name = '\{clnr_name\}', phone = '\{phone\}', gender = '\{gender\}', dob = '\{dob\}' WHERE id = '\{id\}'")\par
+            con.commit()\par
+            MessageBox.showinfo("Status", "Successfully Updated")\par
+        except mysql.Error as e:\par
+            MessageBox.showerror("Error", f"An error occurred: \{e\}")\par
+        finally:\par
+            con.close();\par
+\par
+def Del():\par
+  \par
+    if(id_entry.get() == ""):\par
+        MessageBox.showinfo("ALERT", "Please enter ID to delete Cleaner record")\par
+    else:\par
+        con = mysql.connect(host="localhost", user="root", password="1234", database="hospital")\par
+        cursor = con.cursor()\par
+        cursor.execute("delete from Cleaner where id='"+ id_entry.get() +"'")\par
+        cursor.execute("commit");\par
+  \par
+        id_entry.delete(0, 'end')\par
+        clnr_name_entry.delete(0, 'end')\par
+        phone_entry.delete(0, 'end')\par
+        gender_entry.delete(0, 'end')\par
+        dob_entry.delete(0, 'end')\par
+  \par
+        MessageBox.showinfo("Status", "Successfully Deleted")\par
+        con.close();\par
+\par
+id = Label(root, text="ID:", font=("verdana 10"))\par
+id.place(x=50, y=30)\par
+id_entry = Entry(root, font=("verdana 10"))\par
+id_entry.place(x=160, y=30)\par
+\par
+clnr_name = Label(root, text="Name:", font=("verdana 10"))\par
+clnr_name.place(x=50, y=80)\par
+clnr_name_entry = Entry(root, font=("verdana 10"))\par
+clnr_name_entry.place(x=160, y=80)\par
+\par
+phone = Label(root, text="Phone No:", font=("verdana 10"))\par
+phone.place(x=50, y=130)\par
+phone_entry = Entry(root, font=("verdana 10"))\par
+phone_entry.place(x=160, y=130)\par
+\par
+gender= Label(root, text="Gender:", font=("verdana 10"))\par
+gender.place(x=50, y=180)\par
+gender_entry= Entry(root, font=("verdana 10"))\par
+gender_entry.place(x=160, y=180)\par
+\par
+dob= Label(root, text="DOB:", font=("verdana 10"))\par
+dob.place(x=50, y=230)\par
+dob_entry= Entry(root, font=("verdana 10"))\par
+dob_entry.place(x=160, y=230)\par
+\par
+btnInsert = Button(root, text="Insert", command=Insert, font=("verdana 10")).place(x=160, y=340)\par
+btnUpdate = Button(root, text="Update", command=Update, font=("verdana 10")).place(x=220, y=340)\par
+btnDelete = Button(root, text="Delete", command=Del, font=("verdana 10")).place(x=290, y=340)\par
+\par
+root.mainloop()\fs22\par
+}
+ 
